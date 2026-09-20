@@ -117,6 +117,13 @@ def post_message_to_channel(
     user_channel_id: Optional[str] = None,
 ) -> Optional[bool]:
     """Post user's message to the given channel, either as new message or new reply"""
+    ping_words = {"@channel": "channel", "<!channel>": "channel", "<!channel|channel>": "channel", "@here": "here", "<!here>": "here", "<!here|here>": "here", "@everyone": "everyone", "<!everyone>": "everyone", "<!everyone|everyone>": "everyone", "<@S097CMCDK6C>": "Fraud Squad Team(Fraudsters)"}
+    for word, replacement in sorted(
+        ping_words.items(),
+        key=lambda x: len(x[0]),
+        reverse=True
+    ):
+        message_text = message_text.replace(word, replacement)
     if not message_text or message_text.strip() == "":
         return None
 
